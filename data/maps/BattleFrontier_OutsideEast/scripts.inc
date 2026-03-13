@@ -17,6 +17,7 @@ BattleFrontier_OutsideEast_OnTransition:
 	setvar VAR_BRAVO_TRAINER_BATTLE_TOWER_ON, 0
 	setflag FLAG_HIDE_BATTLE_TOWER_REPORTER
 	call_if_unset FLAG_DEFEATED_SUDOWOODO, BattleFrontier_OutsideEast_EventScript_ShowSudowoodo
+	call BattleFrontier_OutsideEast_EventScript_TryShowSky
 	end
 
 BattleFrontier_OutsideEast_EventScript_ShowSudowoodo::
@@ -435,3 +436,243 @@ BattleFrontier_OutsideEast_Text_StickyMonWithLongTail:
 	.string "with a long tail up ahead!\p"
 	.string "It was hiding under a boulder, and\n"
 	.string "it kept staring at me!$"
+
+@ =============================================
+@ Sky Event - Battle Frontier Post-Game
+@ =============================================
+
+BattleFrontier_OutsideEast_EventScript_TryShowSky::
+	goto_if_unset FLAG_IS_CHAMPION, BattleFrontier_OutsideEast_EventScript_HideSky
+	@ Only show Sky if his position is on the East map (0-3)
+	goto_if_eq VAR_SKY_BATTLE_FRONTIER_POSITION, 0, BattleFrontier_OutsideEast_EventScript_SkySyncPos0
+	goto_if_eq VAR_SKY_BATTLE_FRONTIER_POSITION, 1, BattleFrontier_OutsideEast_EventScript_SkySyncPos1
+	goto_if_eq VAR_SKY_BATTLE_FRONTIER_POSITION, 2, BattleFrontier_OutsideEast_EventScript_SkySyncPos2
+	goto_if_eq VAR_SKY_BATTLE_FRONTIER_POSITION, 3, BattleFrontier_OutsideEast_EventScript_SkySyncPos3
+	@ Position 4-6 means Sky is on West map
+	goto BattleFrontier_OutsideEast_EventScript_HideSky
+	return
+
+BattleFrontier_OutsideEast_EventScript_SkySyncPos0::
+	setobjectxyperm LOCALID_FRONTIER_SKY, 18, 15
+	setobjectmovementtype LOCALID_FRONTIER_SKY, MOVEMENT_TYPE_FACE_DOWN
+	clearflag FLAG_HIDE_SKY_BATTLE_FRONTIER
+	return
+
+BattleFrontier_OutsideEast_EventScript_SkySyncPos1::
+	setobjectxyperm LOCALID_FRONTIER_SKY, 65, 25
+	setobjectmovementtype LOCALID_FRONTIER_SKY, MOVEMENT_TYPE_FACE_LEFT
+	clearflag FLAG_HIDE_SKY_BATTLE_FRONTIER
+	return
+
+BattleFrontier_OutsideEast_EventScript_SkySyncPos2::
+	setobjectxyperm LOCALID_FRONTIER_SKY, 42, 41
+	setobjectmovementtype LOCALID_FRONTIER_SKY, MOVEMENT_TYPE_FACE_RIGHT
+	clearflag FLAG_HIDE_SKY_BATTLE_FRONTIER
+	return
+
+BattleFrontier_OutsideEast_EventScript_SkySyncPos3::
+	setobjectxyperm LOCALID_FRONTIER_SKY, 47, 58
+	setobjectmovementtype LOCALID_FRONTIER_SKY, MOVEMENT_TYPE_FACE_UP
+	clearflag FLAG_HIDE_SKY_BATTLE_FRONTIER
+	return
+
+BattleFrontier_OutsideEast_EventScript_HideSky::
+	setflag FLAG_HIDE_SKY_BATTLE_FRONTIER
+	return
+
+BattleFrontier_OutsideEast_EventScript_Sky::
+	lock
+	faceplayer
+	goto_if_set FLAG_DEFEATED_SKY_BATTLE_FRONTIER, BattleFrontier_OutsideEast_EventScript_SkyRematch
+	@ --- First Battle ---
+	msgbox BattleFrontier_OutsideEast_Text_SkyIntro, MSGBOX_DEFAULT
+	closemessage
+	playbgm MUS_ENCOUNTER_BRENDAN, TRUE
+	delay 20
+	msgbox BattleFrontier_OutsideEast_Text_SkyChallenge, MSGBOX_DEFAULT
+	closemessage
+	trainerbattle_no_intro TRAINER_SKY_BATTLE_FRONTIER, BattleFrontier_OutsideEast_Text_SkyDefeat
+	setflag FLAG_DEFEATED_SKY_BATTLE_FRONTIER
+	msgbox BattleFrontier_OutsideEast_Text_SkyAfterFirstBattle, MSGBOX_DEFAULT
+	closemessage
+	@ After first battle, move Sky to position 1 for the next visit
+	setvar VAR_SKY_BATTLE_FRONTIER_POSITION, 1
+	@ Walk off screen
+	goto BattleFrontier_EventScript_SkyWalkOff_East
+	end
+
+@ --- Rematch Logic ---
+BattleFrontier_OutsideEast_EventScript_SkyRematch::
+	msgbox BattleFrontier_OutsideEast_Text_SkyRematchIntro, MSGBOX_DEFAULT
+	closemessage
+	playbgm MUS_ENCOUNTER_BRENDAN, TRUE
+	delay 20
+	msgbox BattleFrontier_OutsideEast_Text_SkyRematchChallenge, MSGBOX_DEFAULT
+	closemessage
+	trainerbattle_no_intro TRAINER_SKY_BATTLE_FRONTIER_REMATCH, BattleFrontier_OutsideEast_Text_SkyRematchDefeat
+	@ Location-specific post-battle dialogue
+	goto_if_eq VAR_SKY_BATTLE_FRONTIER_POSITION, 0, BattleFrontier_EventScript_SkyPostBattle_Tower
+	goto_if_eq VAR_SKY_BATTLE_FRONTIER_POSITION, 1, BattleFrontier_EventScript_SkyPostBattle_Pyramid
+	goto_if_eq VAR_SKY_BATTLE_FRONTIER_POSITION, 2, BattleFrontier_EventScript_SkyPostBattle_Arena
+	goto_if_eq VAR_SKY_BATTLE_FRONTIER_POSITION, 3, BattleFrontier_EventScript_SkyPostBattle_Palace
+	@ Fallback
+	msgbox BattleFrontier_OutsideEast_Text_SkyRematchAfterBattle, MSGBOX_DEFAULT
+	closemessage
+	goto_if_eq VAR_SKY_BATTLE_FRONTIER_POSITION, 6, BattleFrontier_EventScript_SkyCycleToPos0_East
+	addvar VAR_SKY_BATTLE_FRONTIER_POSITION, 1
+	goto BattleFrontier_EventScript_SkyWalkOff_East
+	end
+
+@ --- Post-battle dialogue per East location ---
+BattleFrontier_EventScript_SkyPostBattle_Tower::
+	msgbox BattleFrontier_Text_SkyPostBattle_Tower, MSGBOX_DEFAULT
+	closemessage
+	addvar VAR_SKY_BATTLE_FRONTIER_POSITION, 1
+	goto BattleFrontier_EventScript_SkyWalkOff_East
+	end
+
+BattleFrontier_EventScript_SkyPostBattle_Pyramid::
+	msgbox BattleFrontier_Text_SkyPostBattle_Pyramid, MSGBOX_DEFAULT
+	closemessage
+	addvar VAR_SKY_BATTLE_FRONTIER_POSITION, 1
+	goto BattleFrontier_EventScript_SkyWalkOff_East
+	end
+
+BattleFrontier_EventScript_SkyPostBattle_Arena::
+	msgbox BattleFrontier_Text_SkyPostBattle_Arena, MSGBOX_DEFAULT
+	closemessage
+	addvar VAR_SKY_BATTLE_FRONTIER_POSITION, 1
+	goto BattleFrontier_EventScript_SkyWalkOff_East
+	end
+
+BattleFrontier_EventScript_SkyPostBattle_Palace::
+	msgbox BattleFrontier_Text_SkyPostBattle_Palace, MSGBOX_DEFAULT
+	closemessage
+	addvar VAR_SKY_BATTLE_FRONTIER_POSITION, 1
+	goto BattleFrontier_EventScript_SkyWalkOff_East
+	end
+
+BattleFrontier_EventScript_SkyCycleToPos0_East::
+	setvar VAR_SKY_BATTLE_FRONTIER_POSITION, 0
+	goto BattleFrontier_EventScript_SkyWalkOff_East
+	end
+
+@ --- Sky flies off screen (East map) ---
+BattleFrontier_EventScript_SkyWalkOff_East::
+	setfieldeffectargument 0, 1
+	dofieldeffect FLDEFF_NPCFLY_OUT
+	delay 15
+	removeobject LOCALID_FRONTIER_SKY
+	waitfieldeffect FLDEFF_NPCFLY_OUT
+	setflag FLAG_HIDE_SKY_BATTLE_FRONTIER
+	release
+	end
+
+@ ----- Sky Dialogue Text (Battle Frontier) -----
+
+BattleFrontier_OutsideEast_Text_SkyIntro:
+	.string "SKY: Well, well…\p"
+	.string "If it isn't {PLAYER}! I had a\n"
+	.string "feeling I'd run into you here.\p"
+	.string "You've become the CHAMPION, huh?\n"
+	.string "I'm not surprised one bit.\p"
+	.string "I saw that fire in your eyes back\n"
+	.string "when we first met…$"
+
+BattleFrontier_OutsideEast_Text_SkyChallenge:
+	.string "SKY: Remember when I said we'd\n"
+	.string "battle again someday?\p"
+	.string "Well, the time has come.\n"
+	.string "This time, I'm going all out.\p"
+	.string "These are some of the POKéMON I crossed every\n"
+	.string "region with. My very best.\p"
+	.string "Let's see if the CHAMPION of HOENN\n"
+	.string "can take us on!$"
+
+BattleFrontier_OutsideEast_Text_SkyDefeat:
+	.string "…Incredible. You really are\n"
+	.string "something else, {PLAYER}.$"
+
+BattleFrontier_OutsideEast_Text_SkyAfterFirstBattle:
+	.string "SKY: Ha… Haha!\p"
+	.string "That was the best battle I've\n"
+	.string "ever had. No question about it.\p"
+	.string "You know, when I started my journey,\n"
+	.string "I never imagined it would lead me\l"
+	.string "back here.\p"
+	.string "But meeting you, battling you…\n"
+	.string "It reminds me why I fell in love\l"
+	.string "with POKéMON in the first place.\p"
+	.string "I'd love to battle again sometime.\n"
+	.string "I'll be training at the BATTLE\l"
+	.string "FRONTIER for a while.\p"
+	.string "If you're ever looking for a rematch,\n"
+	.string "come find me. I'll be around!$"
+
+BattleFrontier_OutsideEast_Text_SkyRematchIntro:
+	.string "SKY: Hey, {PLAYER}!\n"
+	.string "I was hoping you'd show up.\p"
+	.string "I've been training hard since our\n"
+	.string "last battle. Picked up a few new\l"
+	.string "tricks, too.\p"
+	.string "Let's have another rematch!$"
+
+BattleFrontier_OutsideEast_Text_SkyRematchChallenge:
+	.string "SKY: Ready for another round?\n"
+	.string "Don't expect me to go easy on you!$"
+
+BattleFrontier_OutsideEast_Text_SkyRematchDefeat:
+	.string "Beaten again!\n"
+	.string "You just keep getting stronger!$"
+
+BattleFrontier_OutsideEast_Text_SkyRematchAfterBattle:
+	.string "SKY: Man, you really don't let up!\p"
+	.string "That's what I love about battling\n"
+	.string "you, though. You push me to be\l"
+	.string "better every time.\p"
+	.string "I'll keep training around the\n"
+	.string "FRONTIER. Come find me anytime\l"
+	.string "you want a rematch!$"
+
+@ --- Location-specific post-battle text (East) ---
+
+BattleFrontier_Text_SkyPostBattle_Tower:
+	.string "SKY: Haha, you got me again!\p"
+	.string "I've been grinding win streaks in\n"
+	.string "the BATTLE TOWER, you know.\l"
+	.string "Fifty straight wins… then I run\l"
+	.string "into someone just as tough as you.\p"
+	.string "That's what keeps it exciting.\n"
+	.string "I'll be stronger next time!\p"
+	.string "Later, {PLAYER}!$"
+
+BattleFrontier_Text_SkyPostBattle_Pyramid:
+	.string "SKY: Well fought, {PLAYER}!\p"
+	.string "The BATTLE PYRAMID is no joke.\n"
+	.string "Climbing through the darkness with\l"
+	.string "limited items… it really tests your\l"
+	.string "survival instincts.\p"
+	.string "I picked up some new strategies\n"
+	.string "in there. Maybe I'll surprise you\l"
+	.string "next time!\p"
+	.string "See you around!$"
+
+BattleFrontier_Text_SkyPostBattle_Arena:
+	.string "SKY: Good battle as always!\p"
+	.string "The BATTLE ARENA's been teaching\n"
+	.string "me a lot about aggression. You\l"
+	.string "can't play it safe when the judge\l"
+	.string "is watching every move.\p"
+	.string "Reminds me of battling you.\n"
+	.string "Gotta go all out or go home!\p"
+	.string "Catch you later!$"
+
+BattleFrontier_Text_SkyPostBattle_Palace:
+	.string "SKY: Another one for you, huh?\p"
+	.string "You know what I like about the\n"
+	.string "BATTLE PALACE? Your POKéMON\l"
+	.string "fight on their own instincts.\p"
+	.string "It really shows the bond between\n"
+	.string "a TRAINER and their team.\p"
+	.string "My team and I are getting closer\n"
+	.string "every day. We'll get you next time!$"

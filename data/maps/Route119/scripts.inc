@@ -17,6 +17,7 @@ Route119_OnTransition:
 	call Common_EventScript_SetupRivalGfxId
 	call Common_EventScript_SetupRivalOnBikeGfxId
 	call_if_eq VAR_WEATHER_INSTITUTE_STATE, 1, Route119_EventScript_MoveInstituteWorkersDownstairs
+	call Route119_EventScript_TryShowSky
 	special SetRoute119Weather
 	end
 
@@ -608,3 +609,83 @@ Route119_Text_TrainerTipsDecoration:
 	.string "Pick your favorite items and create\n"
 	.string "your very own SECRET BASE exactly the\l"
 	.string "way you want.$"
+
+@ ----- Sky Mega Ring Event -----
+
+Route119_EventScript_TryShowSky::
+	goto_if_unset FLAG_DEFEATED_SKY_ROUTE_104, Route119_EventScript_HideSky
+	goto_if_set FLAG_BADGE06_GET, Route119_EventScript_HideSky
+	goto_if_set FLAG_RECEIVED_SKY_MEGA_RING, Route119_EventScript_HideSky
+	clearflag FLAG_HIDE_SKY_ROUTE_119
+	return
+
+Route119_EventScript_HideSky::
+	setflag FLAG_HIDE_SKY_ROUTE_119
+	return
+
+Route119_EventScript_Sky::
+	lock
+	faceplayer
+	goto_if_set FLAG_RECEIVED_SKY_MEGA_RING, Route119_EventScript_SkyPostMegaRing
+	msgbox Route119_Text_SkyMegaRingIntro, MSGBOX_DEFAULT
+	giveitem ITEM_MEGA_RING
+	goto_if_eq VAR_RESULT, FALSE, Route119_EventScript_SkyNoRoom
+	setflag FLAG_RECEIVED_SKY_MEGA_RING
+	msgbox Route119_Text_SkyMegaRingExplain, MSGBOX_DEFAULT
+	closemessage
+	setflag FLAG_HIDE_SKY_ROUTE_119
+	setfieldeffectargument 0, 1
+	dofieldeffect FLDEFF_NPCFLY_OUT
+	delay 15
+	removeobject LOCALID_ROUTE119_SKY
+	waitfieldeffect FLDEFF_NPCFLY_OUT
+	release
+	end
+
+Route119_EventScript_SkyNoRoom::
+	msgbox Route119_Text_SkyNoRoom, MSGBOX_DEFAULT
+	release
+	end
+
+Route119_EventScript_SkyPostMegaRing::
+	msgbox Route119_Text_SkyPostMegaRing, MSGBOX_DEFAULT
+	release
+	end
+
+@ ----- Sky Route 119 Text -----
+
+Route119_Text_SkyMegaRingIntro:
+	.string "SKY: {PLAYER}! Over here!\p"
+	.string "I've been looking for you.\n"
+	.string "I heard you've been tearing it up\l"
+	.string "on the GYM circuit. Five BADGES\l"
+	.string "already… not bad at all.\p"
+	.string "Listen, I've got something for you.\n"
+	.string "Something I think you're ready for.$"
+
+Route119_Text_SkyMegaRingExplain:
+	.string "SKY: That's a MEGA RING.\p"
+	.string "If a POKéMON is holding the right\n"
+	.string "MEGA STONE, that ring will let you\l"
+	.string "tap into a power beyond evolution.\p"
+	.string "It's called MEGA EVOLUTION.\n"
+	.string "The bond between TRAINER and\l"
+	.string "POKéMON has to be strong enough,\l"
+	.string "or it won't work.\p"
+	.string "But I have a feeling yours will.\n"
+	.string "You've got that look in your eyes…\l"
+	.string "same one I had back then.\p"
+	.string "Good luck at FORTREE GYM, {PLAYER}.\n"
+	.string "And maybe I'll see you again\l"
+	.string "down the road.$"
+
+Route119_Text_SkyNoRoom:
+	.string "SKY: Hmm, looks like your BAG is\n"
+	.string "full. Come back when you've made\l"
+	.string "some room!$"
+
+Route119_Text_SkyPostMegaRing:
+	.string "SKY: Hey, {PLAYER}! How's that\n"
+	.string "MEGA RING treating you?\p"
+	.string "Keep getting stronger. I know\n"
+	.string "you will.$"

@@ -5,6 +5,7 @@ BattleFrontier_OutsideWest_MapScripts::
 BattleFrontier_OutsideWest_OnTransition:
 	setvar VAR_BRAVO_TRAINER_BATTLE_TOWER_ON, 0
 	setflag FLAG_HIDE_BATTLE_TOWER_REPORTER
+	call BattleFrontier_OutsideWest_EventScript_TryShowSky
 	end
 
 BattleFrontier_OutsideWest_EventScript_FerryAttendant::
@@ -515,3 +516,143 @@ BattleFrontier_OutsideWest_Text_MonWithLongTailInFrontier:
 	.string "Oh, challenges can wait. I feel driven\n"
 	.string "to find the delightful creature!$"
 
+
+@ =============================================
+@ Sky Event - Battle Frontier West
+@ =============================================
+
+BattleFrontier_OutsideWest_EventScript_TryShowSky::
+	goto_if_unset FLAG_IS_CHAMPION, BattleFrontier_OutsideWest_EventScript_HideSky
+	@ Only show Sky if his position is on the West map (4-6)
+	goto_if_eq VAR_SKY_BATTLE_FRONTIER_POSITION, 4, BattleFrontier_OutsideWest_EventScript_SkySyncPos4
+	goto_if_eq VAR_SKY_BATTLE_FRONTIER_POSITION, 5, BattleFrontier_OutsideWest_EventScript_SkySyncPos5
+	goto_if_eq VAR_SKY_BATTLE_FRONTIER_POSITION, 6, BattleFrontier_OutsideWest_EventScript_SkySyncPos6
+	@ Position 0-3 means Sky is on East map
+	goto BattleFrontier_OutsideWest_EventScript_HideSky
+	return
+
+BattleFrontier_OutsideWest_EventScript_SkySyncPos4::
+	setobjectxyperm LOCALID_FRONTIER_WEST_SKY, 40, 34
+	setobjectmovementtype LOCALID_FRONTIER_WEST_SKY, MOVEMENT_TYPE_FACE_RIGHT
+	clearflag FLAG_HIDE_SKY_BATTLE_FRONTIER
+	return
+
+BattleFrontier_OutsideWest_EventScript_SkySyncPos5::
+	setobjectxyperm LOCALID_FRONTIER_WEST_SKY, 13, 3
+	setobjectmovementtype LOCALID_FRONTIER_WEST_SKY, MOVEMENT_TYPE_FACE_DOWN
+	clearflag FLAG_HIDE_SKY_BATTLE_FRONTIER
+	return
+
+BattleFrontier_OutsideWest_EventScript_SkySyncPos6::
+	setobjectxyperm LOCALID_FRONTIER_WEST_SKY, 7, 50
+	setobjectmovementtype LOCALID_FRONTIER_WEST_SKY, MOVEMENT_TYPE_FACE_RIGHT
+	clearflag FLAG_HIDE_SKY_BATTLE_FRONTIER
+	return
+
+BattleFrontier_OutsideWest_EventScript_HideSky::
+	setflag FLAG_HIDE_SKY_BATTLE_FRONTIER
+	return
+
+BattleFrontier_OutsideWest_EventScript_Sky::
+	lock
+	faceplayer
+	goto_if_set FLAG_DEFEATED_SKY_BATTLE_FRONTIER, BattleFrontier_OutsideWest_EventScript_SkyRematch
+	@ --- First Battle (unlikely here since default position is East, but handle it) ---
+	msgbox BattleFrontier_OutsideEast_Text_SkyIntro, MSGBOX_DEFAULT
+	closemessage
+	playbgm MUS_ENCOUNTER_BRENDAN, TRUE
+	delay 20
+	msgbox BattleFrontier_OutsideEast_Text_SkyChallenge, MSGBOX_DEFAULT
+	closemessage
+	trainerbattle_no_intro TRAINER_SKY_BATTLE_FRONTIER, BattleFrontier_OutsideEast_Text_SkyDefeat
+	setflag FLAG_DEFEATED_SKY_BATTLE_FRONTIER
+	msgbox BattleFrontier_OutsideEast_Text_SkyAfterFirstBattle, MSGBOX_DEFAULT
+	closemessage
+	setvar VAR_SKY_BATTLE_FRONTIER_POSITION, 1
+	goto BattleFrontier_EventScript_SkyWalkOff_West
+	end
+
+@ --- Rematch Logic (West) ---
+BattleFrontier_OutsideWest_EventScript_SkyRematch::
+	msgbox BattleFrontier_OutsideEast_Text_SkyRematchIntro, MSGBOX_DEFAULT
+	closemessage
+	playbgm MUS_ENCOUNTER_BRENDAN, TRUE
+	delay 20
+	msgbox BattleFrontier_OutsideEast_Text_SkyRematchChallenge, MSGBOX_DEFAULT
+	closemessage
+	trainerbattle_no_intro TRAINER_SKY_BATTLE_FRONTIER_REMATCH, BattleFrontier_OutsideEast_Text_SkyRematchDefeat
+	@ Location-specific post-battle dialogue
+	goto_if_eq VAR_SKY_BATTLE_FRONTIER_POSITION, 4, BattleFrontier_EventScript_SkyPostBattle_Pike
+	goto_if_eq VAR_SKY_BATTLE_FRONTIER_POSITION, 5, BattleFrontier_EventScript_SkyPostBattle_Dome
+	goto_if_eq VAR_SKY_BATTLE_FRONTIER_POSITION, 6, BattleFrontier_EventScript_SkyPostBattle_Factory
+	@ Fallback
+	msgbox BattleFrontier_OutsideEast_Text_SkyRematchAfterBattle, MSGBOX_DEFAULT
+	closemessage
+	addvar VAR_SKY_BATTLE_FRONTIER_POSITION, 1
+	goto BattleFrontier_EventScript_SkyWalkOff_West
+	end
+
+@ --- Post-battle dialogue per West location ---
+BattleFrontier_EventScript_SkyPostBattle_Pike::
+	msgbox BattleFrontier_Text_SkyPostBattle_Pike, MSGBOX_DEFAULT
+	closemessage
+	addvar VAR_SKY_BATTLE_FRONTIER_POSITION, 1
+	goto BattleFrontier_EventScript_SkyWalkOff_West
+	end
+
+BattleFrontier_EventScript_SkyPostBattle_Dome::
+	msgbox BattleFrontier_Text_SkyPostBattle_Dome, MSGBOX_DEFAULT
+	closemessage
+	addvar VAR_SKY_BATTLE_FRONTIER_POSITION, 1
+	goto BattleFrontier_EventScript_SkyWalkOff_West
+	end
+
+BattleFrontier_EventScript_SkyPostBattle_Factory::
+	msgbox BattleFrontier_Text_SkyPostBattle_Factory, MSGBOX_DEFAULT
+	closemessage
+	setvar VAR_SKY_BATTLE_FRONTIER_POSITION, 0
+	goto BattleFrontier_EventScript_SkyWalkOff_West
+	end
+
+@ --- Sky flies off screen (West map) ---
+BattleFrontier_EventScript_SkyWalkOff_West::
+	setfieldeffectargument 0, 1
+	dofieldeffect FLDEFF_NPCFLY_OUT
+	delay 15
+	removeobject LOCALID_FRONTIER_WEST_SKY
+	waitfieldeffect FLDEFF_NPCFLY_OUT
+	setflag FLAG_HIDE_SKY_BATTLE_FRONTIER
+	release
+	end
+
+@ --- Location-specific post-battle text (West) ---
+
+BattleFrontier_Text_SkyPostBattle_Pike:
+	.string "SKY: Phew, what a battle!\p"
+	.string "You know, the BATTLE PIKE gives\n"
+	.string "me the creeps. All those rooms\l"
+	.string "and not knowing what's next…\p"
+	.string "Kind of like battling you, actually.\n"
+	.string "I never know what you'll throw at me!\p"
+	.string "Catch you later, {PLAYER}.\n"
+	.string "I've got more training to do.$"
+
+BattleFrontier_Text_SkyPostBattle_Dome:
+	.string "SKY: Another great match!\p"
+	.string "I've been watching the tournaments\n"
+	.string "at the BATTLE DOME. The bracket\l"
+	.string "format really tests your adaptability.\p"
+	.string "Maybe one day we'll face off in\n"
+	.string "the finals there, huh?\p"
+	.string "Until then, keep getting stronger!$"
+
+BattleFrontier_Text_SkyPostBattle_Factory:
+	.string "SKY: Nice one, {PLAYER}!\p"
+	.string "I've been studying the rental\n"
+	.string "POKéMON at the BATTLE FACTORY.\l"
+	.string "It's wild how different it feels\l"
+	.string "battling with someone else's team.\p"
+	.string "But nothing beats using your own\n"
+	.string "partners. That's what real strength\l"
+	.string "is about.\p"
+	.string "See you around!$"

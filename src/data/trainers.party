@@ -16873,3 +16873,367 @@ Double Battle: No
 Kyogre
 Level: 5
 IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
+
+=== TRAINER_SKY_ROUTE_104 ===
+Name: SKY
+Class: Pkmn Trainer 1
+Pic: Sky
+Gender: Male
+Music: Male
+Double Battle: No
+AI: Basic Trainer
+
+Treecko (M)
+Level: 8
+IVs: 3 HP / 3 Atk / 13 Def / 18 SpA / 28 SpD / 17 Spe
+Nature: Quirky
+Ability: Overgrow
+- Pound
+- Leer
+- Absorb
+
+Torchic (M)
+Level: 8
+IVs: 5 HP / 10 Atk / 8 Def / 15 SpA / 20 SpD / 12 Spe
+Nature: Hardy
+Ability: Blaze
+- Scratch
+- Growl
+- Ember
+
+Mudkip (M)
+Level: 8
+IVs: 8 HP / 14 Atk / 10 Def / 5 SpA / 18 SpD / 9 Spe
+Nature: Hardy
+Ability: Torrent
+- Tackle
+- Growl
+- Water Gun
+
+=== TRAINER_SKY_BATTLE_FRONTIER ===
+Name: SKY
+Class: Pkmn Trainer 1
+Pic: Sky
+Gender: Male
+Music: Male
+Items: Full Restore / Full Restore / Full Restore / Full Restore
+Double Battle: No
+AI: Basic Trainer / Check Bad Move / Try To Faint
+
+Greninja (M) @ Mystic Water
+Level: 82
+IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
+Ability: Torrent
+Nature: Hardy
+- Double Team
+- Surf
+- Ice Beam
+- Water Shuriken
+
+Braviary (M) @ Sharp Beak
+Level: 83
+IVs: 1 HP / 3 Atk / 9 Def / 0 SpA / 13 SpD / 22 Spe
+EVs: 97 HP / 166 Atk / 80 Def / 49 SpA / 11 SpD / 107 Spe
+Ability: Keen Eye
+Nature: Sassy
+- Brave Bird
+- Crush Claw
+- Fly
+- Superpower
+
+Ampharos (M) @ Ampharosite
+Level: 84
+IVs: 1 HP / 20 Atk / 5 Def / 13 SpA / 22 SpD / 0 Spe
+EVs: 37 HP / 70 Atk / 182 Def / 70 SpA / 41 SpD / 110 Spe
+Ability: Static
+Nature: Lonely
+- Iron Tail
+- Thunder
+- Discharge
+
+Infernape (M) @ Life Orb
+Level: 85
+IVs: 20 HP / 5 Atk / 0 Def / 0 SpA / 16 SpD / 22 Spe
+EVs: 60 HP / 70 Atk / 89 Def / 101 SpA / 25 SpD / 165 Spe
+Ability: Blaze
+Nature: Hardy
+- Blast Burn
+- Mach Punch
+- Flamethrower
+- Close Combat
+
+Charizard (M) @ Charcoal
+Level: 87
+IVs: 5 HP / 28 Atk / 7 Def / 1 SpA / 18 SpD / 21 Spe
+EVs: 48 HP / 86 Atk / 98 Def / 73 SpA / 32 SpD / 173 Spe
+Ability: Blaze
+Nature: Bashful
+Gigantamax: Yes
+- Wing Attack
+- Flamethrower
+- Blast Burn
+- Fire Blast
+
+Sceptile (M) @ Sceptilite
+Level: 85
+IVs: 3 HP / 3 Atk / 13 Def / 18 SpA / 28 SpD / 17 Spe
+EVs: 89 HP / 83 Atk / 78 Def / 76 SpA / 52 SpD / 132 Spe
+Ability: Overgrow
+Nature: Quirky
+- Hyper Beam
+- Slam
+- Mimic
+- Leaf Blade
+
+=== TRAINER_SKY_BATTLE_FRONTIER_REMATCH ===
+Name: SKY
+Class: Pkmn Trainer 1
+Pic: Sky
+Gender: Male
+Music: Male
+Items: Full Restore / Full Restore / Full Restore / Full Restore
+Double Battle: No
+AI: Basic Trainer / Check Bad Move / Try To Faint
+Party Size: 6
+Pool Rules: Basic
+
+Greninja (M) @ Mystic Water
+Level: 82
+IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
+Ability: Torrent
+Nature: Hardy
+- Double Team
+- Surf
+- Ice Beam
+- Water Shuriken
+
+Braviary (M) @ Sharp Beak
+Level: 83
+IVs: 1 HP / 3 Atk / 9 Def / 0 SpA / 13 SpD / 22 Spe
+EVs: 97 HP / 166 Atk / 80 Def / 49 SpA / 11 SpD / 107 Spe
+Ability: Keen Eye
+Nature: Sassy
+- Brave Bird
+- Crush Claw
+- Fly
+- Superpower
+
+Ampharos (M) @ Ampharosite
+Level: 84
+IVs: 1 HP / 20 Atk / 5 Def / 13 SpA / 22 SpD / 0 Spe
+EVs: 37 HP / 70 Atk / 182 Def / 70 SpA / 41 SpD / 110 Spe
+Ability: Static
+Nature: Lonely
+- Iron Tail
+- Thunder
+- Discharge
+
+Infernape (M) @ Life Orb
+Level: 85
+IVs: 20 HP / 5 Atk / 0 Def / 0 SpA / 16 SpD / 22 Spe
+EVs: 60 HP / 70 Atk / 89 Def / 101 SpA / 25 SpD / 165 Spe
+Ability: Blaze
+Nature: Hardy
+- Blast Burn
+- Mach Punch
+- Flamethrower
+- Close Combat
+
+Charizard (M) @ Charcoal
+Level: 87
+IVs: 5 HP / 28 Atk / 7 Def / 1 SpA / 18 SpD / 21 Spe
+EVs: 48 HP / 86 Atk / 98 Def / 73 SpA / 32 SpD / 173 Spe
+Ability: Blaze
+Nature: Bashful
+Gigantamax: Yes
+- Wing Attack
+- Flamethrower
+- Blast Burn
+- Fire Blast
+
+Sceptile (M) @ Sceptilite
+Level: 85
+IVs: 3 HP / 3 Atk / 13 Def / 18 SpA / 28 SpD / 17 Spe
+EVs: 89 HP / 83 Atk / 78 Def / 76 SpA / 52 SpD / 132 Spe
+Ability: Overgrow
+Nature: Quirky
+Tags: Ace
+- Hyper Beam
+- Slam
+- Mimic
+- Leaf Blade
+
+Dragonite (M) @ Dragonium Z
+Level: 84
+Ability: Multiscale
+Nature: Adamant
+- Dragon Dance
+- Outrage
+- Extreme Speed
+- Earthquake
+
+Typhlosion (M) @ Choice Specs
+Level: 83
+Ability: Blaze
+Nature: Timid
+- Eruption
+- Flamethrower
+- Focus Blast
+- Shadow Ball
+
+Blastoise (M) @ Blastoisinite
+Level: 83
+Ability: Torrent
+Nature: Modest
+Gigantamax: Yes
+- Shell Smash
+- Hydro Pump
+- Ice Beam
+- Dark Pulse
+
+Golurk @ Choice Band
+Level: 83
+Ability: Iron Fist
+Nature: Adamant
+- Earthquake
+- Shadow Punch
+- Ice Punch
+- Drain Punch
+
+Scizor (M) @ Scizorite
+Level: 84
+Ability: Technician
+Nature: Adamant
+- Bullet Punch
+- Bug Bite
+- Swords Dance
+- Superpower
+
+Rillaboom (M) @ Miracle Seed
+Level: 84
+Ability: Grassy Surge
+Nature: Adamant
+Gigantamax: Yes
+- Grassy Glide
+- Wood Hammer
+- Knock Off
+- U-turn
+
+Decidueye (M) @ Scope Lens
+Level: 83
+Ability: Overgrow
+Nature: Adamant
+- Spirit Shackle
+- Leaf Blade
+- Brave Bird
+- Swords Dance
+
+Metagross @ Metagrossite
+Level: 85
+Ability: Clear Body
+Nature: Jolly
+- Meteor Mash
+- Earthquake
+- Ice Punch
+- Bullet Punch
+
+Tyranitar (M) @ Tyranitarite
+Level: 85
+Ability: Sand Stream
+Nature: Jolly
+- Stone Edge
+- Crunch
+- Earthquake
+- Dragon Dance
+
+Torterra (M) @ Sitrus Berry
+Level: 83
+Ability: Overgrow
+Nature: Adamant
+- Wood Hammer
+- Earthquake
+- Stone Edge
+- Shell Smash
+
+Venusaur (M) @ Venusaurite
+Level: 83
+Ability: Chlorophyll
+Nature: Modest
+Gigantamax: Yes
+- Giga Drain
+- Sludge Bomb
+- Sleep Powder
+- Earth Power
+
+Armarouge (M) @ Assault Vest
+Level: 84
+Ability: Flash Fire
+Nature: Modest
+- Armor Cannon
+- Psychic
+- Energy Ball
+- Shadow Ball
+
+Ceruledge (M) @ Focus Sash
+Level: 84
+Ability: Flash Fire
+Nature: Adamant
+- Bitter Blade
+- Shadow Claw
+- Swords Dance
+- Close Combat
+
+Grimmsnarl (M) @ Light Clay
+Level: 83
+Ability: Prankster
+Nature: Impish
+Gigantamax: Yes
+- Spirit Break
+- Reflect
+- Light Screen
+- Thunder Wave
+
+Vikavolt (M) @ Choice Specs
+Level: 83
+Ability: Levitate
+Nature: Modest
+- Thunderbolt
+- Bug Buzz
+- Energy Ball
+- Volt Switch
+
+Talonflame (M) @ Sharp Beak
+Level: 84
+Ability: Gale Wings
+Nature: Adamant
+- Brave Bird
+- Flare Blitz
+- Swords Dance
+- U-turn
+
+Staraptor (M) @ Choice Scarf
+Level: 84
+Ability: Reckless
+Nature: Jolly
+- Brave Bird
+- Double-Edge
+- Close Combat
+- U-turn
+
+Victini @ Choice Band
+Level: 85
+Ability: Victory Star
+Nature: Jolly
+- V-create
+- Bolt Strike
+- U-turn
+- Zen Headbutt
+
+Rayquaza (M) @ Life Orb
+Level: 87
+Ability: Air Lock
+Nature: Jolly
+- Dragon Ascent
+- Earthquake
+- Extreme Speed
+- Swords Dance

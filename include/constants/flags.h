@@ -51,13 +51,13 @@
 
 #else
 
-#define FLAG_UNUSED_0x020    0x20 // Unused Flag
-#define FLAG_UNUSED_0x021    0x21 // Unused Flag
-#define FLAG_UNUSED_0x022    0x22 // Unused Flag
-#define FLAG_UNUSED_0x023    0x23 // Unused Flag
-#define FLAG_UNUSED_0x024    0x24 // Unused Flag
-#define FLAG_UNUSED_0x025    0x25 // Unused Flag
-#define FLAG_UNUSED_0x026    0x26 // Unused Flag
+#define FLAG_DEFEATED_SKY_ROUTE_104       0x20 // Sky early-game battle defeated
+#define FLAG_RECEIVED_SKY_TREECKO_EGG    0x21 // Received Treecko Egg from Sky
+#define FLAG_HIDE_SKY_ROUTE_104          0x22 // Hide Sky on Route 104 after event
+#define FLAG_HIDE_SKY_BATTLE_FRONTIER    0x23 // Hide Sky at Battle Frontier before champion
+#define FLAG_DEFEATED_SKY_BATTLE_FRONTIER 0x24 // Sky post-game battle defeated
+#define FLAG_HIDE_SKY_ROUTE_119          0x25 // Hide Sky on Route 119 (Mega Ring event)
+#define FLAG_RECEIVED_SKY_MEGA_RING      0x26 // Received Mega Ring from Sky
 #define FLAG_UNUSED_0x027    0x27 // Unused Flag
 #define FLAG_UNUSED_0x028    0x28 // Unused Flag
 #define FLAG_UNUSED_0x029    0x29 // Unused Flag

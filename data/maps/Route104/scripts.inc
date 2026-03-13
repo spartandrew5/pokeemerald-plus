@@ -16,6 +16,7 @@ Route104_OnTransition:
 	call Common_EventScript_SetupRivalGfxId
 	call Route104_EventScript_TrySetRivalPos
 	call Route104_EventScript_ShowOrHideWhiteHerbFlorist
+	call Route104_EventScript_TryShowSky
 	end
 
 Route104_EventScript_ShowOrHideWhiteHerbFlorist::
@@ -1166,3 +1167,614 @@ Route104_Text_BrendanPostBattle:
 	.string "making POKéMON battle.\p"
 	.string "Like MR. BRINEY, it's important to\n"
 	.string "become friends with your POKéMON.$"
+
+@ =============================================
+@ Sky Event - Route 104 South
+@ =============================================
+
+Route104_EventScript_TryShowSky::
+	goto_if_unset FLAG_DEFEATED_RIVAL_ROUTE103, Route104_EventScript_HideSky
+	goto_if_set FLAG_DEFEATED_SKY_ROUTE_104, Route104_EventScript_HideSky
+	clearflag FLAG_HIDE_SKY_ROUTE_104
+	return
+
+Route104_EventScript_HideSky::
+	setflag FLAG_HIDE_SKY_ROUTE_104
+	return
+
+Route104_EventScript_Sky::
+	lock
+	faceplayer
+	goto_if_set FLAG_DEFEATED_SKY_ROUTE_104, Route104_EventScript_SkyPostBattle
+	msgbox Route104_Text_SkyIntro, MSGBOX_DEFAULT
+	closemessage
+	playbgm MUS_ENCOUNTER_BRENDAN, TRUE
+	delay 20
+	msgbox Route104_Text_SkyChallenge, MSGBOX_DEFAULT
+	closemessage
+	trainerbattle_no_intro TRAINER_SKY_ROUTE_104, Route104_Text_SkyDefeat
+	setflag FLAG_DEFEATED_SKY_ROUTE_104
+	msgbox Route104_Text_SkyAfterBattle, MSGBOX_DEFAULT
+	goto Route104_EventScript_SkyGiveStarter
+	end
+
+Route104_EventScript_SkyPostBattle::
+	goto_if_unset FLAG_RECEIVED_SKY_TREECKO_EGG, Route104_EventScript_SkyGiveStarter
+	msgbox Route104_Text_SkyReminder, MSGBOX_DEFAULT
+	release
+	end
+
+@ --- Starter Gift Flow ---
+
+Route104_EventScript_SkyGiveStarter::
+	msgbox Route104_Text_SkyStarterOffer, MSGBOX_DEFAULT
+Route104_EventScript_SkyRegionSelect::
+	msgbox Route104_Text_SkyPickRegion, MSGBOX_DEFAULT
+	dynmultipush Route104_Text_RegionKanto, 0
+	dynmultipush Route104_Text_RegionJohto, 1
+	dynmultipush Route104_Text_RegionHoenn, 2
+	dynmultipush Route104_Text_RegionSinnoh, 3
+	dynmultipush Route104_Text_RegionUnova, 4
+	dynmultipush Route104_Text_RegionKalos, 5
+	dynmultipush Route104_Text_RegionAlola, 6
+	dynmultipush Route104_Text_RegionGalar, 7
+	dynmultipush Route104_Text_RegionPaldea, 8
+	dynmultistack 1, 0, TRUE, 6, FALSE, 0, DYN_MULTICHOICE_CB_NONE
+	switch VAR_RESULT
+	case 0, Route104_EventScript_SkyStarter_Kanto
+	case 1, Route104_EventScript_SkyStarter_Johto
+	case 2, Route104_EventScript_SkyStarter_Hoenn
+	case 3, Route104_EventScript_SkyStarter_Sinnoh
+	case 4, Route104_EventScript_SkyStarter_Unova
+	case 5, Route104_EventScript_SkyStarter_Kalos
+	case 6, Route104_EventScript_SkyStarter_Alola
+	case 7, Route104_EventScript_SkyStarter_Galar
+	case 8, Route104_EventScript_SkyStarter_Paldea
+	end
+
+@ --- Kanto ---
+Route104_EventScript_SkyStarter_Kanto::
+	msgbox Route104_Text_SkyKantoComment, MSGBOX_DEFAULT
+	dynmultichoice 0, 0, FALSE, 3, 0, DYN_MULTICHOICE_CB_NONE, Route104_Text_Bulbasaur, Route104_Text_Charmander, Route104_Text_Squirtle
+	goto_if_eq VAR_RESULT, MULTI_B_PRESSED, Route104_EventScript_SkyRegionSelect
+	goto_if_eq VAR_RESULT, 0, Route104_EventScript_SkyGive_Bulbasaur
+	goto_if_eq VAR_RESULT, 1, Route104_EventScript_SkyGive_Charmander
+	goto_if_eq VAR_RESULT, 2, Route104_EventScript_SkyGive_Squirtle
+	end
+
+@ --- Johto ---
+Route104_EventScript_SkyStarter_Johto::
+	msgbox Route104_Text_SkyJohtoComment, MSGBOX_DEFAULT
+	dynmultichoice 0, 0, FALSE, 3, 0, DYN_MULTICHOICE_CB_NONE, Route104_Text_Chikorita, Route104_Text_Cyndaquil, Route104_Text_Totodile
+	goto_if_eq VAR_RESULT, MULTI_B_PRESSED, Route104_EventScript_SkyRegionSelect
+	goto_if_eq VAR_RESULT, 0, Route104_EventScript_SkyGive_Chikorita
+	goto_if_eq VAR_RESULT, 1, Route104_EventScript_SkyGive_Cyndaquil
+	goto_if_eq VAR_RESULT, 2, Route104_EventScript_SkyGive_Totodile
+	end
+
+@ --- Hoenn ---
+Route104_EventScript_SkyStarter_Hoenn::
+	msgbox Route104_Text_SkyHoennComment, MSGBOX_DEFAULT
+	dynmultichoice 0, 0, FALSE, 3, 0, DYN_MULTICHOICE_CB_NONE, Route104_Text_Treecko, Route104_Text_Torchic, Route104_Text_Mudkip
+	goto_if_eq VAR_RESULT, MULTI_B_PRESSED, Route104_EventScript_SkyRegionSelect
+	goto_if_eq VAR_RESULT, 0, Route104_EventScript_SkyGive_Treecko
+	goto_if_eq VAR_RESULT, 1, Route104_EventScript_SkyGive_Torchic
+	goto_if_eq VAR_RESULT, 2, Route104_EventScript_SkyGive_Mudkip
+	end
+
+@ --- Sinnoh ---
+Route104_EventScript_SkyStarter_Sinnoh::
+	msgbox Route104_Text_SkySinnohComment, MSGBOX_DEFAULT
+	dynmultichoice 0, 0, FALSE, 3, 0, DYN_MULTICHOICE_CB_NONE, Route104_Text_Turtwig, Route104_Text_Chimchar, Route104_Text_Piplup
+	goto_if_eq VAR_RESULT, MULTI_B_PRESSED, Route104_EventScript_SkyRegionSelect
+	goto_if_eq VAR_RESULT, 0, Route104_EventScript_SkyGive_Turtwig
+	goto_if_eq VAR_RESULT, 1, Route104_EventScript_SkyGive_Chimchar
+	goto_if_eq VAR_RESULT, 2, Route104_EventScript_SkyGive_Piplup
+	end
+
+@ --- Unova ---
+Route104_EventScript_SkyStarter_Unova::
+	msgbox Route104_Text_SkyUnovaComment, MSGBOX_DEFAULT
+	dynmultichoice 0, 0, FALSE, 3, 0, DYN_MULTICHOICE_CB_NONE, Route104_Text_Snivy, Route104_Text_Tepig, Route104_Text_Oshawott
+	goto_if_eq VAR_RESULT, MULTI_B_PRESSED, Route104_EventScript_SkyRegionSelect
+	goto_if_eq VAR_RESULT, 0, Route104_EventScript_SkyGive_Snivy
+	goto_if_eq VAR_RESULT, 1, Route104_EventScript_SkyGive_Tepig
+	goto_if_eq VAR_RESULT, 2, Route104_EventScript_SkyGive_Oshawott
+	end
+
+@ --- Kalos ---
+Route104_EventScript_SkyStarter_Kalos::
+	msgbox Route104_Text_SkyKalosComment, MSGBOX_DEFAULT
+	dynmultichoice 0, 0, FALSE, 3, 0, DYN_MULTICHOICE_CB_NONE, Route104_Text_Chespin, Route104_Text_Fennekin, Route104_Text_Froakie
+	goto_if_eq VAR_RESULT, MULTI_B_PRESSED, Route104_EventScript_SkyRegionSelect
+	goto_if_eq VAR_RESULT, 0, Route104_EventScript_SkyGive_Chespin
+	goto_if_eq VAR_RESULT, 1, Route104_EventScript_SkyGive_Fennekin
+	goto_if_eq VAR_RESULT, 2, Route104_EventScript_SkyGive_Froakie
+	end
+
+@ --- Alola ---
+Route104_EventScript_SkyStarter_Alola::
+	msgbox Route104_Text_SkyAlolaComment, MSGBOX_DEFAULT
+	dynmultichoice 0, 0, FALSE, 3, 0, DYN_MULTICHOICE_CB_NONE, Route104_Text_Rowlet, Route104_Text_Litten, Route104_Text_Popplio
+	goto_if_eq VAR_RESULT, MULTI_B_PRESSED, Route104_EventScript_SkyRegionSelect
+	goto_if_eq VAR_RESULT, 0, Route104_EventScript_SkyGive_Rowlet
+	goto_if_eq VAR_RESULT, 1, Route104_EventScript_SkyGive_Litten
+	goto_if_eq VAR_RESULT, 2, Route104_EventScript_SkyGive_Popplio
+	end
+
+@ --- Galar ---
+Route104_EventScript_SkyStarter_Galar::
+	msgbox Route104_Text_SkyGalarComment, MSGBOX_DEFAULT
+	dynmultichoice 0, 0, FALSE, 3, 0, DYN_MULTICHOICE_CB_NONE, Route104_Text_Grookey, Route104_Text_Scorbunny, Route104_Text_Sobble
+	goto_if_eq VAR_RESULT, MULTI_B_PRESSED, Route104_EventScript_SkyRegionSelect
+	goto_if_eq VAR_RESULT, 0, Route104_EventScript_SkyGive_Grookey
+	goto_if_eq VAR_RESULT, 1, Route104_EventScript_SkyGive_Scorbunny
+	goto_if_eq VAR_RESULT, 2, Route104_EventScript_SkyGive_Sobble
+	end
+
+@ --- Paldea ---
+Route104_EventScript_SkyStarter_Paldea::
+	msgbox Route104_Text_SkyPaldeaComment, MSGBOX_DEFAULT
+	dynmultichoice 0, 0, FALSE, 3, 0, DYN_MULTICHOICE_CB_NONE, Route104_Text_Sprigatito, Route104_Text_Fuecoco, Route104_Text_Quaxly
+	goto_if_eq VAR_RESULT, MULTI_B_PRESSED, Route104_EventScript_SkyRegionSelect
+	goto_if_eq VAR_RESULT, 0, Route104_EventScript_SkyGive_Sprigatito
+	goto_if_eq VAR_RESULT, 1, Route104_EventScript_SkyGive_Fuecoco
+	goto_if_eq VAR_RESULT, 2, Route104_EventScript_SkyGive_Quaxly
+	end
+
+@ --- Give Pokémon Scripts ---
+@ Sky's picks: Charmander, Cyndaquil, Treecko, Chimchar, Oshawott, Froakie, Rowlet, Grookey, Fuecoco
+
+Route104_EventScript_SkyGive_Bulbasaur::
+	bufferspeciesname STR_VAR_1, SPECIES_BULBASAUR
+	givemon SPECIES_BULBASAUR, 5
+	goto Route104_EventScript_SkyStarterReceived
+	end
+
+Route104_EventScript_SkyGive_Charmander::
+	bufferspeciesname STR_VAR_1, SPECIES_CHARMANDER
+	givemon SPECIES_CHARMANDER, 5
+	setvar VAR_0x8009, 1
+	goto Route104_EventScript_SkyStarterReceived
+	end
+
+Route104_EventScript_SkyGive_Squirtle::
+	bufferspeciesname STR_VAR_1, SPECIES_SQUIRTLE
+	givemon SPECIES_SQUIRTLE, 5
+	goto Route104_EventScript_SkyStarterReceived
+	end
+
+Route104_EventScript_SkyGive_Chikorita::
+	bufferspeciesname STR_VAR_1, SPECIES_CHIKORITA
+	givemon SPECIES_CHIKORITA, 5
+	goto Route104_EventScript_SkyStarterReceived
+	end
+
+Route104_EventScript_SkyGive_Cyndaquil::
+	bufferspeciesname STR_VAR_1, SPECIES_CYNDAQUIL
+	givemon SPECIES_CYNDAQUIL, 5
+	setvar VAR_0x8009, 1
+	goto Route104_EventScript_SkyStarterReceived
+	end
+
+Route104_EventScript_SkyGive_Totodile::
+	bufferspeciesname STR_VAR_1, SPECIES_TOTODILE
+	givemon SPECIES_TOTODILE, 5
+	goto Route104_EventScript_SkyStarterReceived
+	end
+
+Route104_EventScript_SkyGive_Treecko::
+	bufferspeciesname STR_VAR_1, SPECIES_TREECKO
+	givemon SPECIES_TREECKO, 5, gender=MON_MALE, atkIv=31, speedIv=31, hpIv=28, defIv=25, spAtkIv=25, spDefIv=25
+	setvar VAR_0x8009, 2
+	goto Route104_EventScript_SkyStarterReceived
+	end
+
+Route104_EventScript_SkyGive_Torchic::
+	bufferspeciesname STR_VAR_1, SPECIES_TORCHIC
+	givemon SPECIES_TORCHIC, 5
+	goto Route104_EventScript_SkyStarterReceived
+	end
+
+Route104_EventScript_SkyGive_Mudkip::
+	bufferspeciesname STR_VAR_1, SPECIES_MUDKIP
+	givemon SPECIES_MUDKIP, 5
+	goto Route104_EventScript_SkyStarterReceived
+	end
+
+Route104_EventScript_SkyGive_Turtwig::
+	bufferspeciesname STR_VAR_1, SPECIES_TURTWIG
+	givemon SPECIES_TURTWIG, 5
+	goto Route104_EventScript_SkyStarterReceived
+	end
+
+Route104_EventScript_SkyGive_Chimchar::
+	bufferspeciesname STR_VAR_1, SPECIES_CHIMCHAR
+	givemon SPECIES_CHIMCHAR, 5
+	setvar VAR_0x8009, 1
+	goto Route104_EventScript_SkyStarterReceived
+	end
+
+Route104_EventScript_SkyGive_Piplup::
+	bufferspeciesname STR_VAR_1, SPECIES_PIPLUP
+	givemon SPECIES_PIPLUP, 5
+	goto Route104_EventScript_SkyStarterReceived
+	end
+
+Route104_EventScript_SkyGive_Snivy::
+	bufferspeciesname STR_VAR_1, SPECIES_SNIVY
+	givemon SPECIES_SNIVY, 5
+	goto Route104_EventScript_SkyStarterReceived
+	end
+
+Route104_EventScript_SkyGive_Tepig::
+	bufferspeciesname STR_VAR_1, SPECIES_TEPIG
+	givemon SPECIES_TEPIG, 5
+	goto Route104_EventScript_SkyStarterReceived
+	end
+
+Route104_EventScript_SkyGive_Oshawott::
+	bufferspeciesname STR_VAR_1, SPECIES_OSHAWOTT
+	givemon SPECIES_OSHAWOTT, 5
+	setvar VAR_0x8009, 1
+	goto Route104_EventScript_SkyStarterReceived
+	end
+
+Route104_EventScript_SkyGive_Chespin::
+	bufferspeciesname STR_VAR_1, SPECIES_CHESPIN
+	givemon SPECIES_CHESPIN, 5
+	goto Route104_EventScript_SkyStarterReceived
+	end
+
+Route104_EventScript_SkyGive_Fennekin::
+	bufferspeciesname STR_VAR_1, SPECIES_FENNEKIN
+	givemon SPECIES_FENNEKIN, 5
+	goto Route104_EventScript_SkyStarterReceived
+	end
+
+Route104_EventScript_SkyGive_Froakie::
+	bufferspeciesname STR_VAR_1, SPECIES_FROAKIE
+	givemon SPECIES_FROAKIE, 5
+	setvar VAR_0x8009, 1
+	goto Route104_EventScript_SkyStarterReceived
+	end
+
+Route104_EventScript_SkyGive_Rowlet::
+	bufferspeciesname STR_VAR_1, SPECIES_ROWLET
+	givemon SPECIES_ROWLET, 5
+	setvar VAR_0x8009, 1
+	goto Route104_EventScript_SkyStarterReceived
+	end
+
+Route104_EventScript_SkyGive_Litten::
+	bufferspeciesname STR_VAR_1, SPECIES_LITTEN
+	givemon SPECIES_LITTEN, 5
+	goto Route104_EventScript_SkyStarterReceived
+	end
+
+Route104_EventScript_SkyGive_Popplio::
+	bufferspeciesname STR_VAR_1, SPECIES_POPPLIO
+	givemon SPECIES_POPPLIO, 5
+	goto Route104_EventScript_SkyStarterReceived
+	end
+
+Route104_EventScript_SkyGive_Grookey::
+	bufferspeciesname STR_VAR_1, SPECIES_GROOKEY
+	givemon SPECIES_GROOKEY, 5
+	setvar VAR_0x8009, 1
+	goto Route104_EventScript_SkyStarterReceived
+	end
+
+Route104_EventScript_SkyGive_Scorbunny::
+	bufferspeciesname STR_VAR_1, SPECIES_SCORBUNNY
+	givemon SPECIES_SCORBUNNY, 5
+	goto Route104_EventScript_SkyStarterReceived
+	end
+
+Route104_EventScript_SkyGive_Sobble::
+	bufferspeciesname STR_VAR_1, SPECIES_SOBBLE
+	givemon SPECIES_SOBBLE, 5
+	goto Route104_EventScript_SkyStarterReceived
+	end
+
+Route104_EventScript_SkyGive_Sprigatito::
+	bufferspeciesname STR_VAR_1, SPECIES_SPRIGATITO
+	givemon SPECIES_SPRIGATITO, 5
+	goto Route104_EventScript_SkyStarterReceived
+	end
+
+Route104_EventScript_SkyGive_Fuecoco::
+	bufferspeciesname STR_VAR_1, SPECIES_FUECOCO
+	givemon SPECIES_FUECOCO, 5
+	setvar VAR_0x8009, 1
+	goto Route104_EventScript_SkyStarterReceived
+	end
+
+Route104_EventScript_SkyGive_Quaxly::
+	bufferspeciesname STR_VAR_1, SPECIES_QUAXLY
+	givemon SPECIES_QUAXLY, 5
+	goto Route104_EventScript_SkyStarterReceived
+	end
+
+@ --- Received Logic ---
+
+Route104_EventScript_SkyStarterReceived::
+	goto_if_eq VAR_RESULT, MON_GIVEN_TO_PARTY, Route104_EventScript_SkyStarterReceivedParty
+	goto_if_eq VAR_RESULT, MON_GIVEN_TO_PC, Route104_EventScript_SkyStarterReceivedPC
+	goto Route104_EventScript_SkyStarterNoRoom
+	end
+
+Route104_EventScript_SkyStarterReceivedParty::
+	setflag FLAG_RECEIVED_SKY_TREECKO_EGG
+	playfanfare MUS_OBTAIN_ITEM
+	msgbox Route104_Text_SkyStarterReceived, MSGBOX_DEFAULT
+	waitfanfare
+	goto Route104_EventScript_SkyStarterCheckSpecial
+	end
+
+Route104_EventScript_SkyStarterReceivedPC::
+	setflag FLAG_RECEIVED_SKY_TREECKO_EGG
+	playfanfare MUS_OBTAIN_ITEM
+	msgbox Route104_Text_SkyStarterReceivedPC, MSGBOX_DEFAULT
+	waitfanfare
+	goto Route104_EventScript_SkyStarterCheckSpecial
+	end
+
+Route104_EventScript_SkyStarterNoRoom::
+	msgbox Route104_Text_SkyStarterNoRoom, MSGBOX_DEFAULT
+	setvar VAR_0x8009, 0
+	release
+	end
+
+Route104_EventScript_SkyStarterCheckSpecial::
+	goto_if_eq VAR_0x8009, 2, Route104_EventScript_SkyStarterTreecko
+	goto_if_eq VAR_0x8009, 1, Route104_EventScript_SkyStarterSameRegion
+	msgbox Route104_Text_SkyFarewell, MSGBOX_DEFAULT
+	closemessage
+	goto Route104_EventScript_SkyWalkAway
+	end
+
+Route104_EventScript_SkyStarterTreecko::
+	setvar VAR_0x8009, 0
+	msgbox Route104_Text_SkyTreeckoPick, MSGBOX_DEFAULT
+	msgbox Route104_Text_SkyFarewellTreecko, MSGBOX_DEFAULT
+	closemessage
+	goto Route104_EventScript_SkyWalkAway
+	end
+
+Route104_EventScript_SkyStarterSameRegion::
+	setvar VAR_0x8009, 0
+	msgbox Route104_Text_SkySameRegionChoice, MSGBOX_DEFAULT
+	msgbox Route104_Text_SkyFarewellSpecial, MSGBOX_DEFAULT
+	closemessage
+	goto Route104_EventScript_SkyWalkAway
+	end
+
+Route104_EventScript_SkyWalkAway::
+	setflag FLAG_HIDE_SKY_ROUTE_104
+	setfieldeffectargument 0, 1
+	dofieldeffect FLDEFF_NPCFLY_OUT
+	delay 15
+	removeobject LOCALID_ROUTE104_SKY
+	waitfieldeffect FLDEFF_NPCFLY_OUT
+	release
+	end
+
+@ ----- Sky Dialogue Text -----
+
+Route104_Text_SkyIntro:
+	.string "???: Hey! You there!\p"
+	.string "You look like you just started your\n"
+	.string "journey, am I right?\p"
+	.string "The name's SKY. I've been traveling\n"
+	.string "across all kinds of regions.\p"
+	.string "I started my adventure right here\n"
+	.string "in HOENN a long time ago…$"
+
+Route104_Text_SkyChallenge:
+	.string "SKY: You've got that look in your\n"
+	.string "eyes. The look of a real TRAINER.\p"
+	.string "How about a quick battle? I want\n"
+	.string "to see what you've got!$"
+
+Route104_Text_SkyDefeat:
+	.string "Ha! Not bad at all!\n"
+	.string "You remind me of myself.$"
+
+Route104_Text_SkyAfterBattle:
+	.string "SKY: Wow, you really are something.\p"
+	.string "That battle reminded me of when\n"
+	.string "I first started out…\p"
+	.string "All those journeys across different\n"
+	.string "regions, meeting all kinds of\l"
+	.string "POKéMON…$"
+
+Route104_Text_SkyStarterOffer:
+	.string "SKY: Listen, I've collected starters\n"
+	.string "from every region I've visited.\p"
+	.string "I want you to have one of them.\n"
+	.string "Think of it as a gift from one\l"
+	.string "TRAINER to another.$"
+
+Route104_Text_SkyPickRegion:
+	.string "SKY: So, which region's starter\n"
+	.string "catches your eye?$"
+
+@ Region menu labels
+Route104_Text_RegionKanto:
+	.string "KANTO$"
+Route104_Text_RegionJohto:
+	.string "JOHTO$"
+Route104_Text_RegionHoenn:
+	.string "HOENN$"
+Route104_Text_RegionSinnoh:
+	.string "SINNOH$"
+Route104_Text_RegionUnova:
+	.string "UNOVA$"
+Route104_Text_RegionKalos:
+	.string "KALOS$"
+Route104_Text_RegionAlola:
+	.string "ALOLA$"
+Route104_Text_RegionGalar:
+	.string "GALAR$"
+Route104_Text_RegionPaldea:
+	.string "PALDEA$"
+
+@ Region comments
+Route104_Text_SkyKantoComment:
+	.string "SKY: Ah, KANTO! Home of\n"
+	.string "some legendary TRAINERS.$"
+
+Route104_Text_SkyJohtoComment:
+	.string "SKY: JOHTO… A beautiful region.\n"
+	.string "I have fond memories there.$"
+
+Route104_Text_SkyHoennComment:
+	.string "SKY: HOENN is where I started\n"
+	.string "my very first journey. Good taste!$"
+
+Route104_Text_SkySinnohComment:
+	.string "SKY: SINNOH! The cold air, the\n"
+	.string "legends… What a place.$"
+
+Route104_Text_SkyUnovaComment:
+	.string "SKY: UNOVA is huge. So much\n"
+	.string "to explore out there.$"
+
+Route104_Text_SkyKalosComment:
+	.string "SKY: KALOS… That's where I\n"
+	.string "learned about MEGA EVOLUTION.$"
+
+Route104_Text_SkyAlolaComment:
+	.string "SKY: ALOLA! Island hopping with\n"
+	.string "POKéMON is the best.$"
+
+Route104_Text_SkyGalarComment:
+	.string "SKY: GALAR! The stadiums, the\n"
+	.string "crowds… Nothing like it.$"
+
+Route104_Text_SkyPaldeaComment:
+	.string "SKY: PALDEA! Wide open spaces\n"
+	.string "as far as the eye can see.$"
+
+@ Starter name labels
+Route104_Text_Bulbasaur:
+	.string "BULBASAUR$"
+Route104_Text_Charmander:
+	.string "CHARMANDER$"
+Route104_Text_Squirtle:
+	.string "SQUIRTLE$"
+Route104_Text_Chikorita:
+	.string "CHIKORITA$"
+Route104_Text_Cyndaquil:
+	.string "CYNDAQUIL$"
+Route104_Text_Totodile:
+	.string "TOTODILE$"
+Route104_Text_Treecko:
+	.string "TREECKO$"
+Route104_Text_Torchic:
+	.string "TORCHIC$"
+Route104_Text_Mudkip:
+	.string "MUDKIP$"
+Route104_Text_Turtwig:
+	.string "TURTWIG$"
+Route104_Text_Chimchar:
+	.string "CHIMCHAR$"
+Route104_Text_Piplup:
+	.string "PIPLUP$"
+Route104_Text_Snivy:
+	.string "SNIVY$"
+Route104_Text_Tepig:
+	.string "TEPIG$"
+Route104_Text_Oshawott:
+	.string "OSHAWOTT$"
+Route104_Text_Chespin:
+	.string "CHESPIN$"
+Route104_Text_Fennekin:
+	.string "FENNEKIN$"
+Route104_Text_Froakie:
+	.string "FROAKIE$"
+Route104_Text_Rowlet:
+	.string "ROWLET$"
+Route104_Text_Litten:
+	.string "LITTEN$"
+Route104_Text_Popplio:
+	.string "POPPLIO$"
+Route104_Text_Grookey:
+	.string "GROOKEY$"
+Route104_Text_Scorbunny:
+	.string "SCORBUNNY$"
+Route104_Text_Sobble:
+	.string "SOBBLE$"
+Route104_Text_Sprigatito:
+	.string "SPRIGATITO$"
+Route104_Text_Fuecoco:
+	.string "FUECOCO$"
+Route104_Text_Quaxly:
+	.string "QUAXLY$"
+
+@ Received text
+Route104_Text_SkyStarterReceived:
+	.string "{PLAYER} received {STR_VAR_1}\n"
+	.string "from SKY!$"
+
+Route104_Text_SkyStarterReceivedPC:
+	.string "{PLAYER} received {STR_VAR_1}\n"
+	.string "from SKY!\p"
+	.string "Your party is full, so {STR_VAR_1}\n"
+	.string "was sent to a PC BOX.$"
+
+Route104_Text_SkyStarterNoRoom:
+	.string "SKY: Hmm, looks like you don't have\n"
+	.string "room right now.\p"
+	.string "Come back when you've made some\n"
+	.string "space in your party or PC!$"
+
+@ Special Treecko message (offspring of Sky's Sceptile)
+Route104_Text_SkyTreeckoPick:
+	.string "SKY: Wait… you want TREECKO?\p"
+	.string "That one's actually special.\n"
+	.string "It's the offspring of my SCEPTILE…\l"
+	.string "my very first POKéMON.\p"
+	.string "That little TREECKO has some of\n"
+	.string "its parent's best qualities.\l"
+	.string "I can already tell it's strong.$"
+
+Route104_Text_SkyFarewellTreecko:
+	.string "SKY: Take good care of that little\n"
+	.string "one for me, okay?\n"
+	.string "Maybe one day your SCEPTILE and\n"
+	.string "mine will face off.\l"
+	.string "Now THAT would be a battle.\p"
+	.string "See you around, {PLAYER}!$"
+
+@ Same region pick message (Sky chose this starter in that region)
+Route104_Text_SkySameRegionChoice:
+	.string "SKY: Oh, {STR_VAR_1}? Nice!\p"
+	.string "You know, that's the same starter\n"
+	.string "I chose when I traveled to that\l"
+	.string "region.\p"
+	.string "We had some great times together.\n"
+	.string "I think you two are going to get\l"
+	.string "along just fine.$"
+
+Route104_Text_SkyFarewellSpecial:
+	.string "SKY: Take extra good care of that\n"
+	.string "{STR_VAR_1}. Trust me, it'll become\l"
+	.string "a great partner.\p"
+	.string "Maybe one day we'll battle again…\n"
+	.string "when we're both a lot stronger.\p"
+	.string "I've got a feeling about you, kid.\n"
+	.string "See you around, {PLAYER}!$"
+
+Route104_Text_SkyFarewell:
+	.string "SKY: Take good care of that\n"
+	.string "{STR_VAR_1}, okay?\p"
+	.string "Maybe one day we'll battle again…\n"
+	.string "when we're both a lot stronger.\p"
+	.string "See you around, {PLAYER}!$"
+
+Route104_Text_SkyReminder:
+	.string "SKY: Hey! Good to see you again.\p"
+	.string "I've gotta head out, but keep\n"
+	.string "training hard, okay?$"
