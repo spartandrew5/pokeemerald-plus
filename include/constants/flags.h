@@ -1223,53 +1223,53 @@
 #define FLAG_ITEM_SAFARI_ZONE_SOUTH_EAST_BIG_PEARL                  0x492
 
 #define FLAG_UNUSED_0x493                                           0x493 // Unused Flag
-#define FLAG_UNUSED_0x494                                           0x494 // Unused Flag
-#define FLAG_UNUSED_0x495                                           0x495 // Unused Flag
-#define FLAG_UNUSED_0x496                                           0x496 // Unused Flag
-#define FLAG_UNUSED_0x497                                           0x497 // Unused Flag
-#define FLAG_UNUSED_0x498                                           0x498 // Unused Flag
-#define FLAG_UNUSED_0x499                                           0x499 // Unused Flag
-#define FLAG_UNUSED_0x49A                                           0x49A // Unused Flag
-#define FLAG_UNUSED_0x49B                                           0x49B // Unused Flag
-#define FLAG_UNUSED_0x49C                                           0x49C // Unused Flag
-#define FLAG_UNUSED_0x49D                                           0x49D // Unused Flag
-#define FLAG_UNUSED_0x49E                                           0x49E // Unused Flag
-#define FLAG_UNUSED_0x49F                                           0x49F // Unused Flag
-#define FLAG_UNUSED_0x4A0                                           0x4A0 // Unused Flag
-#define FLAG_UNUSED_0x4A1                                           0x4A1 // Unused Flag
-#define FLAG_UNUSED_0x4A2                                           0x4A2 // Unused Flag
-#define FLAG_UNUSED_0x4A3                                           0x4A3 // Unused Flag
-#define FLAG_UNUSED_0x4A4                                           0x4A4 // Unused Flag
-#define FLAG_UNUSED_0x4A5                                           0x4A5 // Unused Flag
-#define FLAG_UNUSED_0x4A6                                           0x4A6 // Unused Flag
-#define FLAG_UNUSED_0x4A7                                           0x4A7 // Unused Flag
-#define FLAG_UNUSED_0x4A8                                           0x4A8 // Unused Flag
-#define FLAG_UNUSED_0x4A9                                           0x4A9 // Unused Flag
-#define FLAG_UNUSED_0x4AA                                           0x4AA // Unused Flag
-#define FLAG_UNUSED_0x4AB                                           0x4AB // Unused Flag
-#define FLAG_UNUSED_0x4AC                                           0x4AC // Unused Flag
-#define FLAG_UNUSED_0x4AD                                           0x4AD // Unused Flag
-#define FLAG_UNUSED_0x4AE                                           0x4AE // Unused Flag
-#define FLAG_UNUSED_0x4AF                                           0x4AF // Unused Flag
-#define FLAG_UNUSED_0x4B0                                           0x4B0 // Unused Flag
-#define FLAG_UNUSED_0x4B1                                           0x4B1 // Unused Flag
-#define FLAG_UNUSED_0x4B2                                           0x4B2 // Unused Flag
-#define FLAG_UNUSED_0x4B3                                           0x4B3 // Unused Flag
-#define FLAG_UNUSED_0x4B4                                           0x4B4 // Unused Flag
-#define FLAG_UNUSED_0x4B5                                           0x4B5 // Unused Flag
-#define FLAG_UNUSED_0x4B6                                           0x4B6 // Unused Flag
-#define FLAG_UNUSED_0x4B7                                           0x4B7 // Unused Flag
-#define FLAG_UNUSED_0x4B8                                           0x4B8 // Unused Flag
-#define FLAG_UNUSED_0x4B9                                           0x4B9 // Unused Flag
-#define FLAG_UNUSED_0x4BA                                           0x4BA // Unused Flag
-#define FLAG_UNUSED_0x4BB                                           0x4BB // Unused Flag
-#define FLAG_UNUSED_0x4BC                                           0x4BC // Unused Flag
-#define FLAG_UNUSED_0x4BD                                           0x4BD // Unused Flag
-#define FLAG_UNUSED_0x4BE                                           0x4BE // Unused Flag
-#define FLAG_UNUSED_0x4BF                                           0x4BF // Unused Flag
-#define FLAG_UNUSED_0x4C0                                           0x4C0 // Unused Flag
-#define FLAG_UNUSED_0x4C1                                           0x4C1 // Unused Flag
-#define FLAG_UNUSED_0x4C2                                           0x4C2 // Unused Flag
+#define FLAG_ITEM_ROUTE_119_VENUSAURITE                             0x494
+#define FLAG_ITEM_FIERY_PATH_CHARIZARDITE_X                         0x495
+#define FLAG_ITEM_SCORCHED_SLAB_CHARIZARDITE_Y                      0x496
+#define FLAG_ITEM_SLATEPORT_CITY_ALAKAZITE                          0x497
+#define FLAG_ITEM_SHOAL_CAVE_SLOWBRONITE                            0x498
+#define FLAG_ITEM_PACIFIDLOG_TOWN_KANGASKHANITE                     0x499
+#define FLAG_ITEM_ROUTE_124_PINSIRITE                               0x49A
+#define FLAG_ITEM_ROUTE_123_GYARADOSITE                             0x49B
+#define FLAG_ITEM_METEOR_FALLS_1F_2R_AERODACTYLITE                  0x49C
+#define FLAG_ITEM_LITTLEROOT_TOWN_MEWTWONITE_X                      0x49D
+#define FLAG_ITEM_EVER_GRANDE_CITY_MEWTWONITE_Y                     0x49E
+#define FLAG_ITEM_NEW_MAUVILLE_AMPHAROSITE                          0x49F
+#define FLAG_ITEM_GRANITE_CAVE_B2F_STEELIXITE                       0x4A0
+#define FLAG_ITEM_PETALBURG_WOODS_SCIZORITE                         0x4A1
+#define FLAG_ITEM_ROUTE_127_HERACRONITE                             0x4A2
+#define FLAG_ITEM_LAVARIDGE_TOWN_HOUNDOOMINITE                      0x4A3
+#define FLAG_ITEM_JAGGED_PASS_TYRANITARITE                          0x4A4
+#define FLAG_ITEM_ROUTE_114_SCEPTILITE                              0x4A5
+#define FLAG_ITEM_ROUTE_114_BLAZIKENITE                             0x4A6
+#define FLAG_ITEM_ROUTE_114_SWAMPERTITE                             0x4A7
+#define FLAG_ITEM_VERDANTURF_TOWN_GARDEVOIRITE                      0x4A8
+#define FLAG_ITEM_SOOTOPOLIS_CITY_SABLENITE                         0x4A9
+#define FLAG_ITEM_VERDANTURF_TOWN_MAWILITE                          0x4AA
+#define FLAG_ITEM_RUSTURF_TUNNEL_AGGRONITE                          0x4AB
+#define FLAG_ITEM_MT_PYRE_4F_MEDICHAMITE                            0x4AC
+#define FLAG_ITEM_ROUTE_110_MANECTITE                               0x4AD
+#define FLAG_ITEM_AQUA_HIDEOUT_B1F_SHARPEDONITE                     0x4AE
+#define FLAG_ITEM_MAGMA_HIDEOUT_4F_CAMERUPTITE                      0x4AF
+#define FLAG_ITEM_LILYCOVE_CITY_ALTARIANITE                         0x4B0
+#define FLAG_ITEM_MT_PYRE_SUMMIT_BANETTITE                          0x4B1
+#define FLAG_ITEM_SAFARI_ZONE_NW_ABSOLITE                           0x4B2
+#define FLAG_ITEM_SHOAL_CAVE_ICE_ROOM_GLALITITE                     0x4B3
+#define FLAG_ITEM_FALLARBOR_TOWN_GALLADITE                          0x4B4
+#define FLAG_ITEM_ROUTE_123_ABOMASITE                               0x4B5
+#define FLAG_ITEM_METEOR_FALLS_1F_1R_METAGROSSITE                   0x4B6
+#define FLAG_ITEM_BATTLE_FRONTIER_GENGARITE                         0x4B7
+#define FLAG_ITEM_BATTLE_FRONTIER_AUDINITE                          0x4B8
+#define FLAG_ITEM_SS_TIDAL_CORRIDOR_BLASTOISINITE                     0x4B9
+#define FLAG_ITEM_ABANDONED_SHIP_BEEDRILLITE                         0x4BA
+#define FLAG_ITEM_ROUTE_104_PIDGEOTITE                               0x4BB
+#define FLAG_ITEM_METEOR_FALLS_B1F_2R_SALAMENCITE                    0x4BC
+#define FLAG_ITEM_SOUTHERN_ISLAND_LATIASITE                          0x4BD
+#define FLAG_ITEM_SOUTHERN_ISLAND_LATIOSITE                          0x4BE
+#define FLAG_ITEM_MAUVILLE_CITY_LOPUNNITE                            0x4BF
+#define FLAG_ITEM_VICTORY_ROAD_1F_DIANCITE                           0x4C0
+#define FLAG_ITEM_LILYCOVE_CITY_LUCARIONITE                          0x4C1
+#define FLAG_ITEM_ROUTE_120_GARCHOMPITE                              0x4C2
 #define FLAG_UNUSED_0x4C3                                           0x4C3 // Unused Flag
 #define FLAG_UNUSED_0x4C4                                           0x4C4 // Unused Flag
 #define FLAG_UNUSED_0x4C5                                           0x4C5 // Unused Flag
